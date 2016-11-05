@@ -23,15 +23,16 @@ Check your [browser and platform implementation status](https://github.com/WebBl
 		},
     ...
 	}
-  
-  let options = {
+	
+	 
+	let options = {
 		filters: [{
 			namePrefix: ['DeviceName']
 		}],
 		optionalServices: Object.keys(services) // array automatically generated from the services keys
 	};
   
-  webBluetooth.connect(options,services);
+	webBluetooth.connect(options,services);
   
   
 ### Support or Contact
