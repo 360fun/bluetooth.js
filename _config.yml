@@ -1,1 +1,8 @@
+title: Bluetooth.js
+description: Javascript class to simplify the use of the new Web Bluetooth API
+google_analytics: 
+show_downloads: true
 theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
