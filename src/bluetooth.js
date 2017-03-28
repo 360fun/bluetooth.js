@@ -28,7 +28,7 @@
       this.device           = null;
       this.server           = null;
       this._characteristics = new Map();
-			this._debug           = true;
+			this._debug           = false;
     }
 
 		isConnected() {
