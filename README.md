@@ -8,6 +8,8 @@ Check your [browser and platform implementation status](https://github.com/WebBl
 
 ### Usage
 
+Services and Characteristics JSON structure.
+
 	let services = {
 	    '00000000-0000-0000-0000-000000000000' : { // service ID
 	    	name : 'Service 1',
@@ -31,9 +33,35 @@ Check your [browser and platform implementation status](https://github.com/WebBl
 		}],
 		optionalServices: Object.keys(services) // array automatically generated from the services keys
 	};
+
+With this simple command the Web Bluetooth API is called and the device discovery popup will appear.
+	
+	WebBluetooth.connect( options, services )
+	.then( ()=>{
+		// device is connected
+	} );
+	
+Disconnects the device.
+
+	WebBluetooth.disconnect()
+	.then( ()=>{
+		// device is disconnected
+	} );
   
-	WebBluetooth.connect(options,services);
-  
+Read a value from a characteristic.
+
+	WebBluetooth.readCharacteristicValue( characteristicUuid )
+	.then( value => {
+		// the value has been read
+		console.log( value );
+	} );
+	
+Write a value into a characteristic.
+
+	WebBluetooth.writeCharacteristicValue( characteristicUuid )
+	.then( () => {
+		// the value has been written
+	} );
   
 ### Support or Contact
 Francesco Marino - [francesco@360fun.net](mailto:francesco@360fun.net) - [www.360fun.net](http://www.360fun.net)
