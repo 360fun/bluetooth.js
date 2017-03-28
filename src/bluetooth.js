@@ -145,6 +145,6 @@
     }
   }
 
-  window.webBluetooth = new WebBluetooth();
+  window.WebBluetooth = new WebBluetooth();
 
 })();
