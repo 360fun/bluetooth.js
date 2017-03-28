@@ -31,6 +31,10 @@
 			this._debug           = true;
     }
 
+		isConnected() {
+			return this.device && this.device.gatt.connected;
+		}
+
 		connect(options,services) {
 			return navigator.bluetooth.requestDevice(options)
       .then(device => {
