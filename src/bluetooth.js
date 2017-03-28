@@ -39,9 +39,7 @@
 			return navigator.bluetooth.requestDevice(options)
       .then(device => {
         this.device = device;
-				if (this._debug) {
-	        console.debug('Connected to device named "' + device.name + '" with ID "' + device.id + '"');
-	      }
+				this._log('Connected to device named "' + device.name + '" with ID "' + device.id + '"');
         return device.gatt.connect();
 			})
       .then(server => {
@@ -60,34 +58,76 @@
 							);
 						})
 						.then( () => {
-							if( this._debug ) {
-								console.debug('Found service "' + serviceId + '"');
-							}
+							this._log('Found service "' + serviceId + '"');
 						})
-						.catch( () => {
-							if( this._debug ) {
-								console.debug('Service "' + serviceId + '"');
-							}
-						})
+						.catch( e => { this._error('Service "' + serviceId + '"') } );
 					})
 				);
       });
     }
 
 		disconnect() {
-			if (!this.device) {
-		    return false;
-		  }
-		  if (this.device && this.device.gatt.connected) {
-				if (this._debug) {
-					console.debug('Device disconnected!');
-				
-		    return this.device.gatt.disconnect();
-		  } else {
-				if (this._debug) {
-		    	console.debug('Device already disconnected');
+			return new Promise( (resolve, reject) =>  {
+					if( this.isConnected() ) {
+						resolve();
+					} else {
+						reject('Device not connected');
+					}
 				}
-		  }
+			).then( ()=> {
+				this._log('Device disconnected')
+				return this.device.gatt.disconnect();
+			}).catch( e => { this._error(e) } );
+		}
+
+    readCharacteristicValue(characteristicUuid) {
+			return new Promise( (resolve, reject) =>  {
+					if( this.isConnected() ) {
+						resolve();
+					} else {
+						reject('Device not connected');
+					}
+				}
+			).then( ()=> {
+	      let characteristic = this._characteristics.get(characteristicUuid);
+	      return characteristic.readValue()
+	      .then(value => {
+	        // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
+	        value = value.buffer ? value : new DataView(value);
+	        this._log('READ', characteristic.uuid, value);
+	        return value;
+	      });
+			})
+			.catch( e => { this._error(e) } );
+    }
+
+		writeCharacteristicValue(characteristicUuid, value) {
+			return new Promise( (resolve, reject) =>  {
+					if( this.isConnected() ) {
+						resolve();
+					} else {
+						reject('Device not connected');
+					}
+				}
+			).then( ()=> {
+	      let characteristic = this._characteristics.get(characteristicUuid);
+	      this._log('WRITE', characteristic.uuid, value);
+	      return characteristic.writeValue(value);
+			}).catch( e => { this._error(e) } );
+    }
+
+		_error(msg) {
+			if(this._debug) {
+				console.debug(msg);
+			} else {
+				throw msg;
+			}
+		}
+
+		_log(msg) {
+			if(this._debug) {
+				console.log(msg);
+			}
 		}
 
 		_cacheCharacteristic(service, characteristicUuid) {
@@ -95,28 +135,6 @@
       .then(characteristic => {
         this._characteristics.set(characteristicUuid, characteristic);
       });
-    }
-
-    _readCharacteristicValue(characteristicUuid) {
-      let characteristic = this._characteristics.get(characteristicUuid);
-      return characteristic.readValue()
-      .then(value => {
-        // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
-        value = value.buffer ? value : new DataView(value);
-        if (this._debug) {
-          for (let i = 0, a = []; i < value.byteLength; i++) { a.push(value.getUint8(i)); }
-          console.debug('READ', characteristic.uuid, a);
-        }
-        return value;
-      });
-    }
-
-		_writeCharacteristicValue(characteristicUuid, value) {
-      let characteristic = this._characteristics.get(characteristicUuid);
-      if (this._debug) {
-        console.debug('WRITE', characteristic.uuid, value);
-      }
-      return characteristic.writeValue(value);
     }
 
 		_decodeString(data) {
