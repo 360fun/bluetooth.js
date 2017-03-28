@@ -48,20 +48,16 @@
         this.server = server;
 				return Promise.all(
 					Object.keys(services).map( serviceId => {
-						server.getPrimaryService(serviceId).then(service => {
-							Object.keys(services[serviceId].characteristics).map( characteristicId => {
-								this._cacheCharacteristic(service, characteristicId)
-								.then( () => {
-									if( this._debug ) {
-										console.debug('Found characteristic "' + characteristicId + '"');
-									}
+						return server.getPrimaryService(serviceId).then(service => {
+							return Promise.all(
+								Object.keys(services[serviceId].characteristics).map( characteristicId => {
+									return this._cacheCharacteristic(service, characteristicId)
+									.then( () => {
+										this._log('Found characteristic "' + characteristicId + '"');
+									})
+									.catch( e => { this._error('Characteristic "' + characteristicId + '" NOT found') } );
 								})
-								.catch( () => {
-									if( this._debug ) {
-										console.debug('Characteristic "' + characteristicId + '" NOT found');
-									}
-								})
-							});
+							);
 						})
 						.then( () => {
 							if( this._debug ) {
