@@ -32,7 +32,7 @@ Check your [browser and platform implementation status](https://github.com/WebBl
 		optionalServices: Object.keys(services) // array automatically generated from the services keys
 	};
   
-	webBluetooth.connect(options,services);
+	WebBluetooth.connect(options,services);
   
   
 ### Support or Contact
