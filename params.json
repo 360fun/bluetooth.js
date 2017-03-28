@@ -1,6 +1,0 @@
-{
-  "name": "Bluetooth.js",
-  "tagline": "Javascript class to simplify the use of the new Web Bluetooth API",
-  "body": "### WebBluetooth class\r\nThis is just a basic Class to start playing with the new Web Bluetooth API, specifications can change at any time so keep in mind that all of this is mostly experimental! ;)\r\n\r\n### Requirements\r\nCheck your [browser and platform implementation status](https://github.com/WebBluetoothCG/web-bluetooth/blob/gh-pages/implementation-status.md) first.\r\n\r\n### Changelog\r\n0.1 alpha - Connect, Disconnect, Write, Read\r\n\r\n### Support or Contact\r\nFrancesco Marino - [francesco@360fun.net](mailto:francesco@360fun.net) - [www.360fun.net](http://www.360fun.net)\r\n\r\nBased on code from [https://github.com/WebBluetoothCG/demos](https://github.com/WebBluetoothCG/demos)",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}
