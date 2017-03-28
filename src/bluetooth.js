@@ -1,8 +1,12 @@
 /*
- * Copyright (c) 2016 Francesco Marino
+ * Copyright (c) 2016-17 Francesco Marino
  *
  * @author Francesco Marino <francesco@360fun.net>
  * @website www.360fun.net
+ *
+ * This is just a basic Class to start playing with the new Web Bluetooth API,
+ * specifications can change at any time so keep in mind that all of this is
+ * mostly experimental! ;)
  *
  * Check your browser and platform implementation status first
  * https://github.com/WebBluetoothCG/web-bluetooth/blob/gh-pages/implementation-status.md
