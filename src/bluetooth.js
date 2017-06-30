@@ -15,7 +15,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-(function() {
+let WebBluetooth = (function() {
 	'use strict';
 
 	// UTF-8
@@ -145,6 +145,6 @@
     }
   }
 
-  window.WebBluetooth = new WebBluetooth();
+	return WebBluetooth;
 
 })();
