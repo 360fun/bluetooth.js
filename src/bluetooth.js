@@ -29,10 +29,11 @@ let WebBluetooth = (function() {
       this.server           = null;
       this._characteristics = new Map();
 			this._debug           = false;
+			this._connected       = false;
     }
 
 		isConnected() {
-			return this.device && this.device.gatt.connected;
+			return this.device && this.device.gatt.connected && this._connected;
 		}
 
 		connect(options,services) {
@@ -55,7 +56,9 @@ let WebBluetooth = (function() {
 									})
 									.catch( e => { this._error('Characteristic "' + characteristicId + '" NOT found') } );
 								})
-							);
+							).then( () => {
+								return this._connected = true;
+							});
 						})
 						.then( () => {
 							this._log('Found service "' + serviceId + '"');
@@ -76,6 +79,7 @@ let WebBluetooth = (function() {
 				}
 			).then( ()=> {
 				this._log('Device disconnected')
+				this._connected = false;
 				return this.device.gatt.disconnect();
 			}).catch( e => { this._error(e) } );
 		}
